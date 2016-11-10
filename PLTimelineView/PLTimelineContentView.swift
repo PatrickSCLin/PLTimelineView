@@ -36,7 +36,7 @@ import UIKit
         
         self.showsVerticalScrollIndicator = false
         
-        //self.showsHorizontalScrollIndicator = false
+        self.showsHorizontalScrollIndicator = false
         
         self.isOpaque = false
         
