@@ -9,7 +9,17 @@
 import UIKit
 import PLTimelineView
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, PLTimelineDelegate {
+    
+    // MARK: Timeline Methods
+    
+    func timeline(_ timeline: PLTimelineView, didScrollTo date: Date) {
+        
+        print("\(date.description(with: Locale.current))")
+        
+    }
+    
+    // MARK: Init Methods
 
     override func viewDidLoad() {
         
@@ -22,7 +32,6 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
-
 
 }
 

@@ -8,29 +8,45 @@
 
 import UIKit
 
-protocol PLTimelineDelegate {
+@objc public protocol PLTimelineDelegate: NSObjectProtocol {
     
     func timeline(_ timeline: PLTimelineView, didScrollTo date: Date)
     
 }
 
-@IBDesignable class PLTimelineView: UIView, UIScrollViewDelegate {
+@IBDesignable public class PLTimelineView: UIView, UIScrollViewDelegate {
     
-    var currentDate: Date = Date()
+    var basedDate: Date!
+    
+    var currentDate: Date!
     
     var currentIndicator: CAShapeLayer!
     
     var contentView: PLTimelineContentView!
+    
+    var loupeView: UIImageView!
+    
+    var longpressGesture: UILongPressGestureRecognizer!
+    
+    @IBOutlet public weak var delegate: AnyObject?
 
     // MARK: Scroll Delegate Methods
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        guard var target_date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self.basedDate) else { return }
         
         let unit_page_width = scrollView.contentSize.width / 3
+        
+        var isDayChange = false
         
         if scrollView.contentOffset.x >  (scrollView.contentSize.width) - self.bounds.size.width {
             
             scrollView.contentOffset = CGPoint(x: (unit_page_width * 2) - self.bounds.size.width, y: 0)
+            
+            target_date = Calendar.current.date(byAdding: .day, value: 1, to: target_date)!
+            
+            isDayChange = true
             
         }
         
@@ -38,7 +54,47 @@ protocol PLTimelineDelegate {
             
             scrollView.contentOffset = CGPoint(x: unit_page_width, y: 0)
             
+            target_date = Calendar.current.date(byAdding: .day, value: -1, to: target_date)!
+            
+            isDayChange = true
+            
         }
+        
+        let unit_hour_width = self.contentView.rulerView.unit_hour_width
+        
+        let unit_minute_width = unit_hour_width / 6 / 10
+        
+        let unit_second_width = unit_minute_width / 60
+        
+        let timeline_x = scrollView.contentOffset.x + (self.bounds.size.width / 2)
+        
+        let unit_timeline_x = timeline_x.truncatingRemainder(dividingBy: unit_page_width)
+        
+        let hour = Int(floor(unit_timeline_x / unit_hour_width))
+        
+        let minute = Int(floor((unit_timeline_x - (CGFloat(hour) * unit_hour_width)) / unit_minute_width))
+        
+        let second = Int(floor((unit_timeline_x - (CGFloat(hour) * unit_hour_width) - (CGFloat(minute) * unit_minute_width)) / unit_second_width))
+        
+        let day_offsets = [-1, 0, 1]
+        
+        let day_index = Int(floor(timeline_x / unit_page_width))
+        
+        let day_offset = day_offsets[day_index]
+        
+        if isDayChange {
+            
+            self.basedDate = target_date
+            
+        }
+        
+        var current_date = Calendar.current.date(bySettingHour: hour, minute: minute, second: second, of: target_date)!
+        
+        current_date = Calendar.current.date(byAdding: .day, value: day_offset, to: current_date)!
+        
+        self.currentDate = current_date
+        
+        (self.delegate as? PLTimelineDelegate)?.timeline(self, didScrollTo: self.currentDate)
         
     }
     
@@ -72,7 +128,7 @@ protocol PLTimelineDelegate {
     
     // MARK: Internal Methods
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         
         super.layoutSubviews()
         
@@ -152,11 +208,79 @@ protocol PLTimelineDelegate {
         
     }
     
+    func longpress(gesture: UILongPressGestureRecognizer) {
+        
+        switch gesture.state {
+            
+        case .began:
+            
+            print("began")
+            
+            if self.loupeView == nil {
+                
+                self.loupeView = UIImageView(image: UIImage(named: "loupe.png"))
+                
+                let x = self.bounds.size.width / 2 - self.loupeView.image!.size.width / 2
+                
+                let y = self.bounds.size.height / 2 - self.loupeView.image!.size.height / 2
+                
+                self.loupeView.frame = CGRect(x: x, y: y, width: self.loupeView.image!.size.width, height: self.loupeView.image!.size.height)
+                
+            }
+            
+            self.addSubview(self.loupeView)
+            
+            break
+            
+        case .cancelled:
+            
+            print("cancelled")
+            
+            break
+            
+        case .changed:
+            
+            print("changed")
+            
+            break
+            
+        case .ended:
+            
+            print("ended")
+            
+            if self.loupeView != nil {
+                
+                self.loupeView.removeFromSuperview()
+                
+            }
+            
+            break
+            
+        default:
+            
+            break
+            
+        }
+        
+    }
+    
     // MARK: Init Methods
     
     func commonInit() {
         
+        let now = Date()
+        
+        self.basedDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: now)
+        
+        self.currentDate = now
+        
         self.initContentView()
+        
+        self.longpressGesture = UILongPressGestureRecognizer(target: self, action: #selector(PLTimelineView.longpress(gesture:)))
+        
+        self.longpressGesture.minimumPressDuration = 1
+        
+        self.addGestureRecognizer(self.longpressGesture)
         
     }
 
@@ -168,7 +292,7 @@ protocol PLTimelineDelegate {
         
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
         
