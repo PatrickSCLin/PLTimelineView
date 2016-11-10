@@ -6,7 +6,7 @@ PLTimelineView is a customized timeline for iOS, simple and easy to use.
 
 ####Preview
 
-![preview](http://i.imgur.com/zaCNemF.gif)
+![preview](http://i.imgur.com/LvFT7Gf.gif)
 
 ####Requirement 
 
