@@ -24,7 +24,7 @@ import UIKit
     
     var contentView: PLTimelineContentView!
     
-    var loupeView: UIImageView!
+    var loupeView: PLTimelineLoupeView!
     
     var longpressGesture: UILongPressGestureRecognizer!
     
@@ -159,6 +159,24 @@ import UIKit
         self.addConstraint(NSLayoutConstraint(item: self.contentView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
         
     }
+    
+    func initLoupeView() {
+        
+        self.loupeView = PLTimelineLoupeView()
+        
+        self.addSubview(self.loupeView)
+        
+        self.loupeView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.addConstraint(NSLayoutConstraint(item: self.loupeView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: 0))
+        
+        self.addConstraint(NSLayoutConstraint(item: self.loupeView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: 0))
+        
+        self.addConstraint(NSLayoutConstraint(item: self.loupeView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0))
+        
+        self.addConstraint(NSLayoutConstraint(item: self.loupeView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
+        
+    }
 
     func initCurrentIndicator() {
         
@@ -216,19 +234,7 @@ import UIKit
             
             print("began")
             
-            if self.loupeView == nil {
-                
-                self.loupeView = UIImageView(image: UIImage(named: "loupe.png"))
-                
-                let x = self.bounds.size.width / 2 - self.loupeView.image!.size.width / 2
-                
-                let y = self.bounds.size.height / 2 - self.loupeView.image!.size.height / 2
-                
-                self.loupeView.frame = CGRect(x: x, y: y, width: self.loupeView.image!.size.width, height: self.loupeView.image!.size.height)
-                
-            }
-            
-            self.addSubview(self.loupeView)
+            self.loupeView.displayInLoupe(date: self.currentDate)
             
             break
             
@@ -247,12 +253,6 @@ import UIKit
         case .ended:
             
             print("ended")
-            
-            if self.loupeView != nil {
-                
-                self.loupeView.removeFromSuperview()
-                
-            }
             
             break
             
@@ -275,6 +275,8 @@ import UIKit
         self.currentDate = now
         
         self.initContentView()
+        
+        self.initLoupeView()
         
         self.longpressGesture = UILongPressGestureRecognizer(target: self, action: #selector(PLTimelineView.longpress(gesture:)))
         

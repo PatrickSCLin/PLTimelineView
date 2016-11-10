@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		CD24DC3F1DACFDF80061E078 /* PLTimelineView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDB0E8F41DACB2B00064267B /* PLTimelineView.framework */; };
 		CD24DC401DACFDF80061E078 /* PLTimelineView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CDB0E8F41DACB2B00064267B /* PLTimelineView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CD295CE61DD4612D00735D9B /* loupe.png in Resources */ = {isa = PBXBuildFile; fileRef = CD295CE31DD4612D00735D9B /* loupe.png */; };
+		CD295CE71DD4612D00735D9B /* loupe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD295CE41DD4612D00735D9B /* loupe@2x.png */; };
+		CD295CE81DD4612D00735D9B /* loupe@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD295CE51DD4612D00735D9B /* loupe@3x.png */; };
+		CD295CEC1DD4835300735D9B /* PLTimelineLoupeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD295CEB1DD4835300735D9B /* PLTimelineLoupeView.swift */; };
 		CD60DD0B1DACB386009B768D /* PLTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD60DD0A1DACB386009B768D /* PLTimelineView.swift */; };
 		CD60DD0D1DACB3A0009B768D /* PLTimelineContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD60DD0C1DACB3A0009B768D /* PLTimelineContentView.swift */; };
 		CD60DD151DACB422009B768D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD60DD141DACB422009B768D /* AppDelegate.swift */; };
@@ -45,6 +49,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CD295CE31DD4612D00735D9B /* loupe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loupe.png; sourceTree = "<group>"; };
+		CD295CE41DD4612D00735D9B /* loupe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loupe@2x.png"; sourceTree = "<group>"; };
+		CD295CE51DD4612D00735D9B /* loupe@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loupe@3x.png"; sourceTree = "<group>"; };
+		CD295CEB1DD4835300735D9B /* PLTimelineLoupeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLTimelineLoupeView.swift; sourceTree = "<group>"; };
 		CD60DD0A1DACB386009B768D /* PLTimelineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLTimelineView.swift; sourceTree = "<group>"; };
 		CD60DD0C1DACB3A0009B768D /* PLTimelineContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLTimelineContentView.swift; sourceTree = "<group>"; };
 		CD60DD121DACB422009B768D /* PLTimelineViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLTimelineViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +90,9 @@
 		CD60DD131DACB422009B768D /* PLTimelineViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				CD295CE31DD4612D00735D9B /* loupe.png */,
+				CD295CE41DD4612D00735D9B /* loupe@2x.png */,
+				CD295CE51DD4612D00735D9B /* loupe@3x.png */,
 				CD60DD141DACB422009B768D /* AppDelegate.swift */,
 				CD60DD161DACB422009B768D /* ViewController.swift */,
 				CD60DD181DACB422009B768D /* Main.storyboard */,
@@ -118,6 +129,7 @@
 				CD60DD0A1DACB386009B768D /* PLTimelineView.swift */,
 				CD60DD0C1DACB3A0009B768D /* PLTimelineContentView.swift */,
 				CD60DD2A1DACBD80009B768D /* PLTimelineRulerView.swift */,
+				CD295CEB1DD4835300735D9B /* PLTimelineLoupeView.swift */,
 			);
 			path = PLTimelineView;
 			sourceTree = "<group>";
@@ -221,8 +233,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD60DD1F1DACB422009B768D /* LaunchScreen.storyboard in Resources */,
+				CD295CE61DD4612D00735D9B /* loupe.png in Resources */,
 				CD60DD1C1DACB422009B768D /* Assets.xcassets in Resources */,
+				CD295CE81DD4612D00735D9B /* loupe@3x.png in Resources */,
 				CD60DD1A1DACB422009B768D /* Main.storyboard in Resources */,
+				CD295CE71DD4612D00735D9B /* loupe@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +267,7 @@
 				CD60DD0B1DACB386009B768D /* PLTimelineView.swift in Sources */,
 				CD60DD0D1DACB3A0009B768D /* PLTimelineContentView.swift in Sources */,
 				CD60DD2B1DACBD80009B768D /* PLTimelineRulerView.swift in Sources */,
+				CD295CEC1DD4835300735D9B /* PLTimelineLoupeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
