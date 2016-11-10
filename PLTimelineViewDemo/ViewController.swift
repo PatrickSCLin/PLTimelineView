@@ -19,7 +19,7 @@ class ViewController: UIViewController, PLTimelineDelegate {
         
         let formatter = DateFormatter()
         
-        formatter.dateFormat = "yyyy/MM/dd hh:mm:ss.SSS"
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSS"
         
         self.timestampLabel.text = formatter.string(from: date)
         
