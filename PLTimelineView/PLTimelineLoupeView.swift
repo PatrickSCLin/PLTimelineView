@@ -52,7 +52,11 @@ import UIKit
         
         if self.loupeImageView == nil {
             
-            self.loupeImageView = UIImageView(image: UIImage(named: "loupe.png"))
+            let bundle = Bundle(for: PLTimelineLoupeView.self)
+            
+            let image = UIImage(named: "loupe.png", in: bundle, compatibleWith: nil)
+            
+            self.loupeImageView = UIImageView(image: image)
             
             self.addSubview(self.loupeImageView)
             
