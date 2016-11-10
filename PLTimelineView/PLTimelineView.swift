@@ -60,7 +60,7 @@ protocol PLTimelineDelegate {
         
         let unit_hour_width = self.contentView.rulerView.unit_hour_width
         
-        let unit_minute_width = unit_hour_width / 6 / 60
+        let unit_minute_width = unit_hour_width / 6 / 10
         
         let unit_second_width = unit_minute_width / 60
         
