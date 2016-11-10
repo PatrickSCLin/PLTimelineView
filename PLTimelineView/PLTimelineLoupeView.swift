@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PLTimelineLoupeView: UIView {
+@IBDesignable class PLTimelineLoupeView: UIView {
 
     let unit_second_width: CGFloat = 10
     
@@ -22,6 +22,8 @@ class PLTimelineLoupeView: UIView {
     
     var loupeImageView: UIImageView!
     
+    var loupeMaskLayer: CAShapeLayer!
+    
     var currentDate: Date?
     
     // MARK: Public Methods
@@ -29,8 +31,6 @@ class PLTimelineLoupeView: UIView {
     func displayInLoupe(date: Date) {
         
         self.currentDate = date
-        
-        // TODO: implement display new date
         
         self.setNeedsDisplay()
         
@@ -50,6 +50,14 @@ class PLTimelineLoupeView: UIView {
             
         }
         
+        if self.loupeMaskLayer == nil {
+            
+            self.loupeMaskLayer = CAShapeLayer()
+            
+            self.layer.mask = self.loupeMaskLayer
+            
+        }
+        
         let x = (self.bounds.size.width / 2) - (self.loupeImageView.image!.size.width / 2)
         
         let y = (self.bounds.size.height / 2) - (self.loupeImageView.image!.size.height / 2)
@@ -59,6 +67,14 @@ class PLTimelineLoupeView: UIView {
         let height = self.loupeImageView.image!.size.height
         
         self.loupeImageView.frame = CGRect(x: x, y: y, width: width, height: height)
+        
+        let roundedRect = self.loupeImageView.frame.insetBy(dx: 2, dy: 3).offsetBy(dx: 0, dy: -1)
+        
+        let path = UIBezierPath(roundedRect: roundedRect, cornerRadius: 10)
+        
+        path.lineWidth = 0
+        
+        self.loupeMaskLayer.path = path.cgPath
         
     }
     
@@ -74,13 +90,7 @@ class PLTimelineLoupeView: UIView {
         
         UIColor.white.setFill()
         
-        let roundedRect = self.loupeImageView.frame.insetBy(dx: 2, dy: 3).offsetBy(dx: 0, dy: -1)
-        
-        let path = UIBezierPath(roundedRect: roundedRect, cornerRadius: 10)
-        
-        path.lineWidth = 0
-        
-        path.fill()
+        print("rect: \(rect)")
         
     }
     
