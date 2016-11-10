@@ -11,11 +11,19 @@ import PLTimelineView
 
 class ViewController: UIViewController, PLTimelineDelegate {
     
+    @IBOutlet var timestampLabel: UILabel!
+    
     // MARK: Timeline Methods
     
     func timeline(_ timeline: PLTimelineView, didScrollTo date: Date) {
         
-        print("\(date.description(with: Locale.current))")
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy/MM/dd hh:mm:ss.SSS"
+        
+        self.timestampLabel.text = formatter.string(from: date)
+        
+        self.timestampLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 17, weight: UIFontWeightRegular)
         
     }
     

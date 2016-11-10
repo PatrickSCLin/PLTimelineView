@@ -28,6 +28,8 @@ import UIKit
     
     var longpressGesture: UILongPressGestureRecognizer!
     
+    var oldLocation: CGPoint = CGPoint.zero
+    
     @IBOutlet public weak var delegate: AnyObject?
 
     // MARK: Scroll Delegate Methods
@@ -94,7 +96,11 @@ import UIKit
         
         self.currentDate = current_date
         
-        (self.delegate as? PLTimelineDelegate)?.timeline(self, didScrollTo: self.currentDate)
+        if self.loupeView.isHidden == true {
+            
+            (self.delegate as? PLTimelineDelegate)?.timeline(self, didScrollTo: self.currentDate)
+            
+        }
         
     }
     
@@ -176,6 +182,8 @@ import UIKit
         
         self.addConstraint(NSLayoutConstraint(item: self.loupeView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
         
+        self.loupeView.isHidden = true
+        
     }
 
     func initCurrentIndicator() {
@@ -232,27 +240,37 @@ import UIKit
             
         case .began:
             
-            print("began")
+            self.oldLocation = gesture.location(in: self)
             
             self.loupeView.displayInLoupe(date: self.currentDate)
             
-            break
-            
-        case .cancelled:
-            
-            print("cancelled")
+            self.loupeView.isHidden = false
             
             break
             
         case .changed:
             
-            print("changed")
+            let newLocation = gesture.location(in: self)
+            
+            let offset = (newLocation.x - oldLocation.x) * -1
+            
+            let interval = Double(offset / 0.5 * 0.1)
+            
+            let displayDate = self.loupeView.currentDate!.addingTimeInterval(TimeInterval(interval))
+            
+            self.loupeView.displayInLoupe(date: displayDate)
+            
+            self.gotoDate(displayDate)
+            
+            (self.delegate as? PLTimelineDelegate)?.timeline(self, didScrollTo: self.currentDate)
+            
+            self.oldLocation = newLocation
             
             break
             
-        case .ended:
+        case .ended, .cancelled:
             
-            print("ended")
+            self.loupeView.isHidden = true
             
             break
             
